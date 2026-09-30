@@ -8,6 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useEffect, useState } from "react";
 const revenueData = [
   { date: "Sep 24", revenue: 12400 },
   { date: "Sep 25", revenue: 18200 },
@@ -18,6 +19,26 @@ const revenueData = [
   { date: "Sep 30", revenue: 28600 },
 ];
 export default function Home() {
+  const [authorized, setAuthorized] = useState(false);
+
+useEffect(() => {
+  const user = localStorage.getItem("nexus-user");
+
+  if (!user) {
+    window.location.href = "/login";
+    return;
+  }
+
+  setAuthorized(true);
+}, []);
+
+if (!authorized) {
+  return (
+    <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
+      Checking authentication...
+    </div>
+  );
+}
   return (
     <div className="min-h-screen bg-gray-950 text-white flex">
       {/* Sidebar */}
@@ -39,17 +60,6 @@ export default function Home() {
   Customers
 </a>
 
-          <button className="w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800">
-            Orders
-          </button>
-
-          <button className="w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800">
-            Analytics
-          </button>
-
-          <button className="w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800">
-            Settings
-          </button>
         </nav>
 
         <div className="mt-auto p-4 border-t border-gray-800">
