@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type Customer = {
@@ -13,7 +13,7 @@ type Customer = {
   spend: number;
 };
 
-export default function CustomersPage() {
+function CustomersContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -418,5 +418,18 @@ useEffect(() => {
   </div>
 )}
     </div>
+  );
+}
+export default function CustomersPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
+          Loading customers...
+        </div>
+      }
+    >
+      <CustomersContent />
+    </Suspense>
   );
 }
